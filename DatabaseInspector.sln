@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.1259
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseInspector", "DatabaseInspector\DatabaseInspector.csproj", "{D7325CCB-C9AE-4F2A-A892-5E90DA400FB1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TesterApp", "TesterApp\TesterApp.csproj", "{FB151889-23E2-4386-B3AB-865DB300552C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{D7325CCB-C9AE-4F2A-A892-5E90DA400FB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7325CCB-C9AE-4F2A-A892-5E90DA400FB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7325CCB-C9AE-4F2A-A892-5E90DA400FB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB151889-23E2-4386-B3AB-865DB300552C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB151889-23E2-4386-B3AB-865DB300552C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB151889-23E2-4386-B3AB-865DB300552C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB151889-23E2-4386-B3AB-865DB300552C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,6 +1,6 @@
 ﻿namespace DatabaseInspector
 {
-    interface IDatabase
+    public interface IDatabase
     {
         bool connectToDatabase(string connectionString);
         bool disconnectFromDatabase();

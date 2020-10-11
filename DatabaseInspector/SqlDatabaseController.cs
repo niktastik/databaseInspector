@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DatabaseInspector
 {
-    public class Class1
+    interface SqlDatabaseController
     {
     }
 }

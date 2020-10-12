@@ -44,10 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseDatabaseController.cs" />
+    <Compile Include="Entities\Database.cs" />
     <Compile Include="Entities\DatabaseInstance.cs" />
     <Compile Include="Interfaces\IDatabaseController.cs" />
     <Compile Include="SqlDatabaseController.cs" />
-    <Compile Include="Entities\SqlServerDatabase.cs" />
+    <Compile Include="SqlServerDatabase.cs" />
     <Compile Include="Interfaces\IDatabase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

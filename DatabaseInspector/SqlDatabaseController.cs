@@ -2,13 +2,23 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Sql;
+using System.IO;
+using Microsoft.Win32;
 
 namespace DatabaseInspector
 {
-    public class SqlDatabaseController : IDatabaseController
+    public class SqlDatabaseController : BaseDatabaseController, IDatabaseController
     {
-        List<DatabaseInstance> sqlInstanceList = new List<DatabaseInstance> {};
-        List<SqlServerDatabase> sqlDatabaseList = new List<SqlServerDatabase> {};
+        public void ScanForDatabases()
+        {
+            RetrieveInstanceInfo();
+            RetrieveDatabasesForInstances();
+        }
+
+        public bool GetDatabaseInfo(IDatabase targetDatabase)
+        {
+            throw new NotImplementedException();
+        }
 
         public bool ConnectToDatabase(IDatabase targetDatabase)
         {
@@ -20,47 +30,81 @@ namespace DatabaseInspector
             throw new NotImplementedException();
         }
 
-        public bool GetAllInstances()
+        private void GetSQLBrowserInstances()
         {
-            // Try SQL Browser service to get instance list
             SqlDataSourceEnumerator sqlInstances = SqlDataSourceEnumerator.Instance;
             DataTable instanceInfoTable = sqlInstances.GetDataSources();
 
             for (int i = 0; i < instanceInfoTable.Rows.Count; i++)
             {
+                if (IsDuplicateInstance(instanceInfoTable.Rows[i].Field<string>("InstanceName"))) break;
+
                 var temp = new DatabaseInstance();
                 temp.ServerName = instanceInfoTable.Rows[i].Field<string>("ServerName");
                 temp.InstanceName = instanceInfoTable.Rows[i].Field<string>("InstanceName");
                 temp.IsClustered = instanceInfoTable.Rows[i].Field<string>("IsClustered");
                 temp.Version = instanceInfoTable.Rows[i].Field<string>("Version");
-                sqlInstanceList.Add(temp);
+                instanceList.Add(temp);
             }
-
-            // TODO: Implement searching for SQL instances in registry
-
-            return (sqlInstanceList.Count > 0) ? true : false;
         }
 
-        public bool GetAllDatabases()
+        private void FindSqlInstancesInRegistry()
         {
-            if (GetAllInstances())
+            Dictionary<string, string> instanceRegMap = new Dictionary<string, string>();
+            string ServerName = Environment.MachineName;
+            RegistryView registryView = Environment.Is64BitOperatingSystem ? RegistryView.Registry64 : RegistryView.Registry32;
+            using (RegistryKey hklm = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, registryView))
             {
-                foreach (DatabaseInstance currentInstance in sqlInstanceList)
+                RegistryKey instanceKey = hklm.OpenSubKey(@"SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL", false);
+                if (instanceKey != null)
                 {
-
+                    foreach (var instanceName in instanceKey.GetValueNames())
+                    {
+                        instanceRegMap.Add(instanceName.ToString(), instanceKey.GetValue(instanceName.ToString()).ToString());
+                    }
                 }
             }
-            return (sqlDatabaseList.Count > 0) ? true : false;
+
+            foreach (var instance in instanceRegMap)
+            {
+                if (IsDuplicateInstance(instance.Key)) break;
+
+                var newInstance = new DatabaseInstance();
+                newInstance.InstanceName = instance.Key;
+                newInstance.ServerName = ServerName;
+
+                using (RegistryKey hklm = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, registryView))
+                {
+                    RegistryKey instanceKey = hklm.OpenSubKey(@"SOFTWARE\Microsoft\Microsoft SQL Server\" + instance.Value + @"\Setup");
+                    if (instanceKey != null)
+                    {
+                        newInstance.Version = instanceKey.GetValue("Version").ToString();
+                        newInstance.DataDirectory = instanceKey.GetValue("SQLDataRoot").ToString() + @"\Data";
+                    }
+                }
+                instanceList.Add(newInstance);
+            }
         }
 
-        public bool GetDatabaseInfo(IDatabase targetDatabase)
+        private void RetrieveInstanceInfo()
         {
-            throw new NotImplementedException();
+            FindSqlInstancesInRegistry();
+            GetSQLBrowserInstances();
         }
 
-        public void KillAllConnections()
+        private void RetrieveDatabasesForInstances()
         {
-            throw new NotImplementedException();
+            foreach (DatabaseInstance currentInstance in instanceList)
+            {
+                DirectoryInfo instanceDataDir = new DirectoryInfo(currentInstance.DataDirectory);
+                foreach(FileInfo instanceDataFile in instanceDataDir.EnumerateFiles("*.mdf"))
+                {
+                    var temp = new SqlServerDatabase();
+                    temp.HostInstance = currentInstance;
+                    temp.DatabaseName = instanceDataFile.Name.Substring(0, instanceDataFile.Name.LastIndexOf('.'));
+                    databaseList.Add(temp);
+                }
+            }
         }
     }
 }

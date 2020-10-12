@@ -13,8 +13,12 @@ namespace TesterApp
         static void Main(string[] args)
         {
             SqlDatabaseController sqlTest = new SqlDatabaseController();
-            sqlTest.GetAllDatabases();
-
+            sqlTest.ScanForDatabases();
+            var instances = sqlTest.GetAllInstances();
+            Console.WriteLine("SQL Instance Count: " + instances.Count.ToString());
+            var databases = sqlTest.GetAllDatabases();
+            Console.WriteLine("SQL Database Count: " + databases.Count.ToString());
+            Console.ReadLine();
         }
     }
 }

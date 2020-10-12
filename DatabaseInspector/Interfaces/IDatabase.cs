@@ -2,9 +2,9 @@
 {
     public interface IDatabase
     {
-        bool connectToDatabase(string connectionString);
-        bool disconnectFromDatabase();
-        bool connectionIsActive();
-        object queryDatabase(string query);
+        bool ConnectToDatabase(string connectionString);
+        bool DisconnectFromDatabase();
+        bool ConnectionIsActive();
+        object QueryDatabase(string query);
     }
 }

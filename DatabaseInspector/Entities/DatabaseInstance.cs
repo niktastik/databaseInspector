@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DatabaseInspector
+﻿namespace DatabaseInspector
 {
-    class DatabaseInstance
+    public class DatabaseInstance
     {
-        public string ServerName { get; set; }
-        public string InstanceName { get; set; }
-        public string IsClustered { get; set; }
-        public string Version { get; set; }
+        public string ServerName;
+        public string InstanceName;
+        public string IsClustered;
+        public string Version;
+        public string DataDirectory;
     }
 }

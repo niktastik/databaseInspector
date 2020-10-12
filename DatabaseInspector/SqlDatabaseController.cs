@@ -32,19 +32,26 @@ namespace DatabaseInspector
 
         private void GetSQLBrowserInstances()
         {
-            SqlDataSourceEnumerator sqlInstances = SqlDataSourceEnumerator.Instance;
-            DataTable instanceInfoTable = sqlInstances.GetDataSources();
-
-            for (int i = 0; i < instanceInfoTable.Rows.Count; i++)
+            try
             {
-                if (IsDuplicateInstance(instanceInfoTable.Rows[i].Field<string>("InstanceName"))) break;
+                SqlDataSourceEnumerator sqlInstances = SqlDataSourceEnumerator.Instance;
+                DataTable instanceInfoTable = sqlInstances.GetDataSources();
 
-                var temp = new DatabaseInstance();
-                temp.ServerName = instanceInfoTable.Rows[i].Field<string>("ServerName");
-                temp.InstanceName = instanceInfoTable.Rows[i].Field<string>("InstanceName");
-                temp.IsClustered = instanceInfoTable.Rows[i].Field<string>("IsClustered");
-                temp.Version = instanceInfoTable.Rows[i].Field<string>("Version");
-                instanceList.Add(temp);
+                for (int i = 0; i < instanceInfoTable.Rows.Count; i++)
+                {
+                    if (IsDuplicateInstance(instanceInfoTable.Rows[i].Field<string>("InstanceName"))) break;
+
+                    var temp = new DatabaseInstance();
+                    temp.ServerName = instanceInfoTable.Rows[i].Field<string>("ServerName");
+                    temp.InstanceName = instanceInfoTable.Rows[i].Field<string>("InstanceName");
+                    temp.IsClustered = instanceInfoTable.Rows[i].Field<string>("IsClustered");
+                    temp.Version = instanceInfoTable.Rows[i].Field<string>("Version");
+                    instanceList.Add(temp);
+                }
+            }
+            catch
+            {
+                //throw new InvalidOperationException();
             }
         }
 
@@ -89,7 +96,7 @@ namespace DatabaseInspector
         private void RetrieveInstanceInfo()
         {
             FindSqlInstancesInRegistry();
-            GetSQLBrowserInstances();
+            //GetSQLBrowserInstances();
         }
 
         private void RetrieveDatabasesForInstances()

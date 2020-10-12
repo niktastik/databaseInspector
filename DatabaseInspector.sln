@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseInspector", "Databa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TesterApp", "TesterApp\TesterApp.csproj", "{FB151889-23E2-4386-B3AB-865DB300552C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseInspector.WebService", "DatabaseInspector.WebService\DatabaseInspector.WebService.csproj", "{13A7F9E1-968A-47E6-96A0-1BC49B136D8D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{FB151889-23E2-4386-B3AB-865DB300552C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB151889-23E2-4386-B3AB-865DB300552C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB151889-23E2-4386-B3AB-865DB300552C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13A7F9E1-968A-47E6-96A0-1BC49B136D8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13A7F9E1-968A-47E6-96A0-1BC49B136D8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13A7F9E1-968A-47E6-96A0-1BC49B136D8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13A7F9E1-968A-47E6-96A0-1BC49B136D8D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

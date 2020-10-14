@@ -3,7 +3,7 @@
     public interface IDatabase
     {
         bool ConnectToDatabase(string connectionString);
-        bool DisconnectFromDatabase();
+        void DisconnectFromDatabase();
         bool ConnectionIsActive();
         object QueryDatabase(string query);
     }

@@ -13,11 +13,6 @@ namespace DatabaseInspector
             throw new NotImplementedException();
         }
 
-        public bool DisconnectFromDatabase()
-        {
-            throw new NotImplementedException();
-        }
-
         public object QueryDatabase(string query)
         {
             throw new NotImplementedException();

@@ -5,6 +5,8 @@ using System.Data.Sql;
 using System.IO;
 using Microsoft.Win32;
 
+using DatabaseInspector.Utilities;
+
 namespace DatabaseInspector
 {
     public class SqlDatabaseController : BaseDatabaseController, IDatabaseController
@@ -58,8 +60,8 @@ namespace DatabaseInspector
         private void FindSqlInstancesInRegistry()
         {
             Dictionary<string, string> instanceRegMap = new Dictionary<string, string>();
-            string ServerName = Environment.MachineName;
-            RegistryView registryView = Environment.Is64BitOperatingSystem ? RegistryView.Registry64 : RegistryView.Registry32;
+            string ServerName = WindowsSystemHelper.GetMachineName();
+            var registryView = WindowsSystemHelper.GetRegistryView();
             using (RegistryKey hklm = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, registryView))
             {
                 RegistryKey instanceKey = hklm.OpenSubKey(@"SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL", false);

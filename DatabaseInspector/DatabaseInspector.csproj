@@ -47,11 +47,14 @@
     <Compile Include="BaseDatabaseController.cs" />
     <Compile Include="Entities\Database.cs" />
     <Compile Include="Entities\DatabaseInstance.cs" />
+    <Compile Include="Entities\MySqlDatabase.cs" />
     <Compile Include="Interfaces\IDatabaseController.cs" />
+    <Compile Include="MySqlDatabaseController.cs" />
     <Compile Include="SqlDatabaseController.cs" />
-    <Compile Include="SqlServerDatabase.cs" />
+    <Compile Include="Entities\SqlServerDatabase.cs" />
     <Compile Include="Interfaces\IDatabase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WindowsSystemHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

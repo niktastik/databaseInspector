@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-using DatabaseInspector;
+﻿using System.Collections.Generic;
 
 namespace DatabaseInspector.WebService
 {
     public class DBInspector
     {
         protected SqlDatabaseController sqlDbService;
+        protected MySqlDatabaseController mySqlDbService;
         private bool isRetrieved = false;
 
         public DBInspector()
         {
             sqlDbService = new SqlDatabaseController();
+            mySqlDbService = new MySqlDatabaseController();
         }
 
         public void SearchForDBs()
@@ -22,13 +19,17 @@ namespace DatabaseInspector.WebService
             if (!isRetrieved)
             {
                 sqlDbService.ScanForDatabases();
+                mySqlDbService.ScanForDatabases();
                 isRetrieved = true;
             }
         }
 
         public IEnumerable<Database> GetAllDBs()
         {
-            return sqlDbService.GetAllDatabases();
+            var allDbs = new List<Database>();
+            allDbs.AddRange(sqlDbService.GetAllDatabases());
+            allDbs.AddRange(mySqlDbService.GetAllDatabases());
+            return allDbs;
         }
     }
 }

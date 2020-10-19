@@ -11,6 +11,8 @@ namespace DatabaseInspector
 {
     public class SqlDatabaseController : BaseDatabaseController, IDatabaseController
     {
+        private const string instanceType = "MSSQL";
+
         public void ScanForDatabases()
         {
             RetrieveInstanceInfo();
@@ -80,6 +82,7 @@ namespace DatabaseInspector
 
                 var newInstance = new DatabaseInstance();
                 newInstance.InstanceName = instance.Key;
+                newInstance.InstanceType = instanceType;
                 newInstance.ServerName = ServerName;
 
                 using (RegistryKey hklm = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, registryView))
@@ -103,10 +106,10 @@ namespace DatabaseInspector
 
         private void RetrieveDatabasesForInstances()
         {
-            foreach (DatabaseInstance currentInstance in instanceList)
+            foreach (var currentInstance in instanceList)
             {
                 DirectoryInfo instanceDataDir = new DirectoryInfo(currentInstance.DataDirectory);
-                foreach(FileInfo instanceDataFile in instanceDataDir.EnumerateFiles("*.mdf"))
+                foreach(var instanceDataFile in instanceDataDir.EnumerateFiles("*.mdf"))
                 {
                     var temp = new SqlServerDatabase();
                     temp.HostInstance = currentInstance;
